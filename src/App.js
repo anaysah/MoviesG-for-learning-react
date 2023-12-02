@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MovieCard from "./components/MovieCard";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Header from "./components/Header";
 
 
 const API_URL = "https://www.omdbapi.com/?i=tt3896198&apikey=23ec9fb9";
@@ -16,6 +17,10 @@ const App = () => {
         const newSearchTerm = e.target.value;
         setSearchTerm(newSearchTerm);
         searchMovies(newSearchTerm);
+    };
+
+    const handleSearchButtonClick = () => {
+        searchMovies(searchTerm);
     };
 
 
@@ -45,29 +50,29 @@ const App = () => {
     }, [])
 
     return (
-        <div className="container pt-3">
-            <h1 className="title">Movies G</h1>
-            <div className="d-flex gap-2 mb-4 mb-sm-5">
-                <input className="form-control form-control-sm" placeholder="Search a Movie" value={searchTerm} onChange={handleSearchInputChange} />
-                <button className="btn btn-primary" onClick={() => { searchMovies(searchTerm) }}>Search</button>
-            </div>
+        <>
+            <Header
+                searchTerm={searchTerm}
+                handleSearchInputChange={handleSearchInputChange}
+                handleSearchButtonClick={handleSearchButtonClick}
+            />
 
-            <div className="container px-0 pb-5">
-                <div className="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-sm-4 g-2">
-                    {loading ? (
-                        <p>Loading...</p>
-                    ) : error ? (
-                        <p>Error: {error}</p>
-                    ) : (
-                        movies.map((movie) => (
-                            <div className="col">
-                                <MovieCard movie={movie} key={movie.imdbID} />
-                            </div>
-                        ))
-                    )}
+                <div className="container pb-5">
+                    <div className="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-sm-4 g-2">
+                        {loading ? (
+                            <p>Loading...</p>
+                        ) : error ? (
+                            <p>Error: {error}</p>
+                        ) : (
+                            movies.map((movie) => (
+                                <div className="col">
+                                    <MovieCard movie={movie} key={movie.imdbID} />
+                                </div>
+                            ))
+                        )}
+                    </div>
                 </div>
-            </div>
-        </div>
+        </>
     )
 }
 

@@ -1,0 +1,6 @@
+.header{
+    background-color: var(--fore-color);
+    position: sticky;
+    top: 0;
+    left: 0;
+}
