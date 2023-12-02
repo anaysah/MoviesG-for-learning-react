@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import MovieCard from "./MovieCard";
+import MovieCard from "./components/MovieCard";
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const API_URL = "https://www.omdbapi.com/?i=tt3896198&apikey=23ec9fb9";
 
@@ -14,7 +17,7 @@ const App = () => {
         setSearchTerm(newSearchTerm);
         searchMovies(newSearchTerm);
     };
-    
+
 
     const searchMovies = async (title) => {
         try {
@@ -42,20 +45,28 @@ const App = () => {
     }, [])
 
     return (
-        <div>
-            <h1>Movies G</h1>
-            <input placeholder="Search a Movie" value={searchTerm} onChange={handleSearchInputChange} />
-            <button onClick={() => { searchMovies(searchTerm) }}>Search</button>
+        <div className="container pt-3">
+            <h1 className="title">Movies G</h1>
+            <div className="d-flex gap-2 mb-4 mb-sm-5">
+                <input className="form-control form-control-sm" placeholder="Search a Movie" value={searchTerm} onChange={handleSearchInputChange} />
+                <button className="btn btn-primary" onClick={() => { searchMovies(searchTerm) }}>Search</button>
+            </div>
 
-            {loading ? (
-                <p>Loading...</p>
-            ) : error ? (
-                <p>Error: {error}</p>
-            ) : (
-                movies.map((movie) => (
-                    <MovieCard movie={movie} key={movie.imdbID} />
-                ))
-            )}
+            <div className="container px-0 pb-5">
+                <div className="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-sm-4 g-2">
+                    {loading ? (
+                        <p>Loading...</p>
+                    ) : error ? (
+                        <p>Error: {error}</p>
+                    ) : (
+                        movies.map((movie) => (
+                            <div className="col">
+                                <MovieCard movie={movie} key={movie.imdbID} />
+                            </div>
+                        ))
+                    )}
+                </div>
+            </div>
         </div>
     )
 }
